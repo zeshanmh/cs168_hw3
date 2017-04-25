@@ -5,7 +5,7 @@ TRAIN_N = 100
 TEST_N = 10000
 D = 200
 N_TRIALS = 1000
-NUM_ITERS = 100
+NUM_ITERS = 30
 
 
 def gen_data():
@@ -23,8 +23,11 @@ def compute_normalized_error(X, y, a):
 def compute_loss(X, y, a): 
 	return np.sum((X.dot(a) - y)**2)
 
-def gradient_descent(X, y, alpha=0.0005, l=0.1, verbose=False): 
-	a = np.zeros((D,1))
+def gradient_descent(X, y, alpha=0.0005, l=0.1, r=0, verbose=False): 
+	a = np.random.normal(0, 1, size=(D,1))
+	norm = np.linalg.norm(a)
+	a = a * r / norm
+	#a = np.zeros((D,1))
 	losses = []
 	for i in xrange(NUM_ITERS): 
 		# loss = np.log(compute_loss(X,y,a))
