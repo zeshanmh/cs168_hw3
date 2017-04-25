@@ -176,13 +176,65 @@ def partd():
 	plt.legend(loc=2)
 	plt.show()
 
+def sgd3(X, y, r=0, alpha=0.00005): 
+	a = np.random.normal(0, 1, size=(D,1))
+	norm = np.linalg.norm(a)
+	a = a * r / norm
+	# a = np.zeros((D,1))
+	rows = X.shape[0]
+	#losses = []
 
+	for i in xrange(N_ITERS): 
+		#loss = compute_loss(X,y,a)
+		#losses.append(loss)
+		#if i % 100000 == 0: print 'loss at iteration %d: %f' % (i+1,loss)
+		index = random.randint(0, rows - 1)
+		x = X[index]
+		grad = 2*(x.dot(a) - y[index])*x.T
+		a = a - alpha * grad.reshape((-1,1))
+
+	return a
+	#return losses 
+
+def parte():
+	radii = [0, 0.1, 0.5, 1, 10, 20, 30]
+	train_errors = []
+	test_errors = []
+
+	for r in radii:
+		print "r: ", r
+		X_train_errors = []
+		X_test_errors = []
+		
+		for _ in range(N_TRIALS):
+			X_train, a_true, y_train, X_test, y_test = gen_data()
+
+			a = sgd3(X_train, y_train, r)
+			normalized_train_error = compute_normalized_error(X_train, y_train, a)
+			X_train_errors.append(normalized_train_error)
+			normalized_test_error = compute_normalized_error(X_test, y_test, a)
+			X_test_errors.append(normalized_test_error)
+
+		train_errors.append(np.mean(X_train_errors))
+		test_errors.append(np.mean(X_test_errors))
+
+
+	fig, ax = plt.subplots()
+	plt.plot(xrange(len(radii)), train_errors, marker='x', color='b', label='Training Error')
+	plt.plot(xrange(len(radii)), test_errors, marker='o', linestyle='-', color='r', label='Test Error')
+	ax.set_xticklabels(radii)
+	plt.xlabel('Radius')
+	plt.ylabel('Normalized Error')
+	plt.title('Normalized Error vs. Radius')
+	plt.legend(loc=9)
+	plt.show()
 
 def main():
 	#parta()
 	#partb()
 	#partc()
-	partd()
+	#partd()
+	parte()
 
 if __name__ == "__main__":
     main()
