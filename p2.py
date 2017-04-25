@@ -53,13 +53,14 @@ def partb():
 		test_errors.append(np.mean(X_test_errors))
 
 
-	plt.plot(lambdas, test_errors, '-', label='lambda_vs_error')
-	plt.xlabel('lambda')
-	plt.ylabel('error')
-	plt.title('train and test error for different lambdas')
-
-	#plt.yscale('log')
-	plt.legend(["step size=0.0005", "step size=0.005", "step size=0.01"], loc=2)
+	fig, ax = plt.subplots()
+	plt.plot(xrange(len(lambdas)), train_errors, marker='x', color='b', label='Training Error')
+	plt.plot(xrange(len(lambdas)), test_errors, marker='o', linestyle='-', color='r', label='Test Error')
+	ax.set_xticklabels(lambdas)
+	plt.xlabel('Lambda')
+	plt.ylabel('Normalized Error')
+	plt.title('Test and Train Error for different Lambdas')
+	plt.legend(loc=9)
 	plt.show()
 
 
