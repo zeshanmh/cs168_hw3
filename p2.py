@@ -205,7 +205,7 @@ def parte():
 		print "r: ", r
 		X_train_errors = []
 		X_test_errors = []
-		
+
 		for _ in range(N_TRIALS):
 			X_train, a_true, y_train, X_test, y_test = gen_data()
 
@@ -233,8 +233,8 @@ def main():
 	#parta()
 	#partb()
 	#partc()
-	#partd()
-	parte()
+	partd()
+	#parte()
 
 if __name__ == "__main__":
     main()
